@@ -57,6 +57,10 @@ func Show_mac_address_table(switch_id int64, switch_hostname string) error {
 	}
 	defer db.Close()
 
+	// Delete records
+	deleteQuery := fmt.Sprintf("DELETE FROM mac_address_table WHERE switch_id = %d AND DATE(created_at) = CURDATE()", switch_id)
+	Execute_query(db, deleteQuery)
+
 	// Start the database transaction
 	tx, err := db.Begin()
 	if err != nil {

@@ -1,6 +1,7 @@
 package cisco_database
 
 import (
+	"fmt"
 	"log"
 	"strings"
 
@@ -35,9 +36,9 @@ func Show_lldp_neighbors(switch_id int64, switch_hostname string) error {
 	}
 	defer db.Close()
 
-	// Delete records from today
-	// deleteQuery := fmt.Sprintf("DELETE FROM lldp_neighbors WHERE switch_id = %d AND DATE(created_at) = CURDATE()", switch_id)
-	// Execute_query(db, deleteQuery)
+	// Delete records
+	deleteQuery := fmt.Sprintf("DELETE FROM lldp_neighbors WHERE switch_id = %d AND DATE(created_at) = CURDATE()", switch_id)
+	Execute_query(db, deleteQuery)
 
 	sqlStr := "INSERT INTO `lldp_neighbors` (`switch_id`, `interface`, `neighbor_name`, `neighbor_interface`, `capabilities`) VALUES "
 	// 2. Create slices for the placeholder strings and the actual values
