@@ -1,30 +1,30 @@
-package database
+package cisco_database
 
 import (
+	"fmt"
 	"log"
 	"strings"
 
 	"github.com/xtokio/cisco"
 )
 
-// LldpNeighbor defines the structure for a single LLDP neighbor entry.
-type LldpNeighbor struct {
-	Interface         string
-	Neighbor          string
-	NeighborInterface string
-	HoldTime          string
-	Capability        string
+// VlanInfo defines the structure for a single VLAN entry.
+type VlanInfo struct {
+	VLANID   string
+	VLANName string
+	Status   string
+	Ports    []string
 }
 
-func Show_lldp_neighbors(switch_id int64, switch_hostname string) error {
-	show_lldp_neighbors_data, err := cisco.Show_cdp_neighbors(switch_hostname)
+func Show_vlan(switch_id int64, switch_hostname string) error {
+	show_vlan_data, err := cisco.Show_vlan(switch_hostname)
 	if err != nil {
 		return err
 	}
 
 	// Check the length of the slice, not the map.
-	if len(show_lldp_neighbors_data) == 0 {
-		log.Printf("Show LLDP Neighbors :: Warning: Parsing completed for %s, but no interfaces were found.", switch_hostname)
+	if len(show_vlan_data) == 0 {
+		log.Printf("Show VLAN :: Warning: Parsing completed for %s, but no interfaces were found.", switch_hostname)
 		return nil
 	}
 
@@ -35,11 +35,11 @@ func Show_lldp_neighbors(switch_id int64, switch_hostname string) error {
 	}
 	defer db.Close()
 
-	// Delete records from today
-	// deleteQuery := fmt.Sprintf("DELETE FROM lldp_neighbors WHERE switch_id = %d AND DATE(created_at) = CURDATE()", switch_id)
-	// Execute_query(db, deleteQuery)
+	// Delete records
+	deleteQuery := fmt.Sprintf("DELETE FROM vlans WHERE switch_id = %d AND DATE(created_at) = CURDATE()", switch_id)
+	Execute_query(db, deleteQuery)
 
-	sqlStr := "INSERT INTO `lldp_neighbors` (`switch_id`, `interface`, `neighbor_name`, `neighbor_interface`, `capabilities`) VALUES "
+	sqlStr := "INSERT INTO `vlans` (`switch_id`, `vlan_id`, `vlan_name`, `status`, `interfaces`) VALUES "
 	// 2. Create slices for the placeholder strings and the actual values
 	var valueStrings []string
 	var valueArgs []any // Use []any (or []interface{})
@@ -48,16 +48,20 @@ func Show_lldp_neighbors(switch_id int64, switch_hostname string) error {
 	placeholderRow := "(?, ?, ?, ?, ?)"
 
 	// Iterate over the slice, which maintains the correct order.
-	for _, details := range show_lldp_neighbors_data {
+	for _, details := range show_vlan_data {
 		// Add the placeholder group for this row
 		valueStrings = append(valueStrings, placeholderRow)
+
+		// The SQL driver cannot pass a slice as a value for a single column.
+		portsString := strings.Join(details.Ports, ",")
+
 		// Add the values for this row, in the *exact* same order as the columns above
 		valueArgs = append(valueArgs,
 			switch_id, // The switch_id from the function argument
-			details.Interface,
-			details.Neighbor,
-			details.NeighborInterface,
-			details.Capability,
+			details.VLANID,
+			details.VLANName,
+			details.Status,
+			portsString,
 		)
 	}
 	finalQuery := sqlStr + strings.Join(valueStrings, ",")
@@ -84,7 +88,7 @@ func Show_lldp_neighbors(switch_id int64, switch_hostname string) error {
 		return err
 	}
 
-	log.Printf("%d :: %s :: Show LLDP Neighbors :: %d records inserted.\n", switch_id, switch_hostname, len(show_lldp_neighbors_data))
+	log.Printf("%d :: %s :: Show Vlans :: %d records inserted.\n", switch_id, switch_hostname, len(show_vlan_data))
 
 	return nil
 

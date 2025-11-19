@@ -1,4 +1,4 @@
-package database
+package cisco_database
 
 import (
 	"log"
