@@ -92,20 +92,17 @@ func Show_mac_address_table(switch_id int64, switch_hostname string) error {
 
 		// Iterate over the *batch* (not the full set)
 		for _, details := range batch {
-			// Only add record is details.Type == 'STATIC'
-			if details.Type == "STATIC" {
-				// Add the placeholder group for this row
-				valueStrings = append(valueStrings, placeholderRow)
+			// Add the placeholder group for this row
+			valueStrings = append(valueStrings, placeholderRow)
 
-				// Add the values for this row
-				valueArgs = append(valueArgs,
-					switch_id,
-					details.Interface,
-					details.MacAddress,
-					details.VlanID,
-					details.Type,
-				)
-			}
+			// Add the values for this row
+			valueArgs = append(valueArgs,
+				switch_id,
+				details.Interface,
+				details.MacAddress,
+				details.VlanID,
+				details.Type,
+			)
 		}
 
 		// Construct the final query *for this batch*
