@@ -18,7 +18,7 @@ type LldpNeighbor struct {
 }
 
 func Show_lldp_neighbors(switch_id int64, switch_hostname string) error {
-	show_lldp_neighbors_data, err := cisco.Show_cdp_neighbors(switch_hostname)
+	show_lldp_neighbors_data, err := cisco.Show_lldp_neighbors(switch_hostname)
 	if err != nil {
 		return err
 	}
