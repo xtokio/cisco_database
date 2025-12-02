@@ -4,14 +4,8 @@ github.com/go-sql-driver/mysql v1.9.3 h1:U/N249h2WzJ3Ukj8SowVFjdtZKfu9vlLZxjPXV1
 github.com/go-sql-driver/mysql v1.9.3/go.mod h1:qn46aNg1333BRMNU69Lq93t8du/dwxI64Gl8i5p1WMU=
 github.com/xtokio/akips v1.0.2 h1:k1Mh1V0JBSJanwEampLNZ7+t/wsLu11WCiIs+0QYYTo=
 github.com/xtokio/akips v1.0.2/go.mod h1:mihVCzOPDT7tnYf802shAkAmQ7Zj4jtk25UAEMg6huc=
-github.com/xtokio/cisco v1.0.1 h1:0iQA3J8YcAhyPlkfaKIApmU/nfkBfj5qxhF1cKQLB2w=
-github.com/xtokio/cisco v1.0.1/go.mod h1:7kZlOEPtegv0ysAvuFYOsyyb8uPZJtDocI2i4RqKUrM=
-github.com/xtokio/cisco v1.0.5 h1:qDhu18FWAbDqEGRyakCTaKBWzl9x2isV8aiDUDOk46g=
-github.com/xtokio/cisco v1.0.5/go.mod h1:7kZlOEPtegv0ysAvuFYOsyyb8uPZJtDocI2i4RqKUrM=
-github.com/xtokio/cisco v1.0.6 h1:T2Fr9BlMbBIE0jxlmsdecaH9nUJq5t4rmbJzf4xeO1w=
-github.com/xtokio/cisco v1.0.6/go.mod h1:7kZlOEPtegv0ysAvuFYOsyyb8uPZJtDocI2i4RqKUrM=
-golang.org/x/crypto v0.44.0 h1:A97SsFvM3AIwEEmTBiaxPPTYpDC47w720rdiiUvgoAU=
-golang.org/x/crypto v0.44.0/go.mod h1:013i+Nw79BMiQiMsOPcVCB5ZIJbYkerPrGnOa00tvmc=
+github.com/xtokio/cisco v1.0.7 h1:2Fjo3fJ1DEzxop7UO3qD5x0OysdFDk+u8VlRNc/zkXE=
+github.com/xtokio/cisco v1.0.7/go.mod h1:7kZlOEPtegv0ysAvuFYOsyyb8uPZJtDocI2i4RqKUrM=
 golang.org/x/crypto v0.45.0 h1:jMBrvKuj23MTlT0bQEOBcAE0mjg8mK9RXFhRH6nyF3Q=
 golang.org/x/crypto v0.45.0/go.mod h1:XTGrrkGJve7CYK7J8PEww4aY7gM3qMCElcJQ8n8JdX4=
 golang.org/x/sys v0.38.0 h1:3yZWxaJjBmCWXqhN1qh02AkOnCQ1poK6oF+a7xWL6Gc=
