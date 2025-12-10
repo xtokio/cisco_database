@@ -25,6 +25,7 @@ CREATE TABLE IF NOT EXISTS `interfaces` (
   `description` TEXT NULL,
   `mac_address` TEXT NULL,
   `ip_address` TEXT NULL,
+  `fqdn` TEXT NULL,
   `link_status` TEXT NULL,
   `protocol_status` TEXT NULL,
   `ise_port` INT DEFAULT 0,
@@ -180,6 +181,14 @@ CREATE TABLE IF NOT EXISTS `arp_table` (
   `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+CREATE TABLE IF NOT EXISTS `fqdn_table` (
+  `id` INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+  `mac_address` TEXT NOT NULL,
+  `ip_address` TEXT NOT NULL,
+  `fqdn` TEXT NULL,
+  `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 CREATE TABLE IF NOT EXISTS `ise_ip_phones` (
   `id` INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
   `mac_address` TEXT NOT NULL,
@@ -201,6 +210,7 @@ ALTER TABLE `vlans` ADD INDEX `idx_sw_date` (switch_id, created_at);
 ALTER TABLE `show_running_config` ADD INDEX `idx_sw_if_date` (switch_id, interface(10), created_at);
 ALTER TABLE `akips_interface_usage` ADD INDEX `idx_sw_if_date` (switch_id, interface(10), created_at);
 ALTER TABLE `arp_table` ADD INDEX `idx_mac_date` (mac_address(20), created_at);
+ALTER TABLE `fqdn_table` ADD INDEX `idx_ip_date` (ip_address(20), created_at);
 ALTER TABLE `ise_ip_phones` ADD INDEX `idx_mac_date` (mac_address(20), created_at);
 
 CREATE OR REPLACE VIEW `view_interfaces` AS
@@ -221,7 +231,7 @@ SELECT
 	interfaces.vlan_id,
 	interfaces.vlan_name,
 	akips_interface_usage.last_change,
-	interfaces.created_at 
+	interfaces.created_at
 FROM interfaces
 JOIN switches ON switches.id = interfaces.switch_id
 LEFT JOIN (
