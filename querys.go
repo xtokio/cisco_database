@@ -172,6 +172,7 @@ func Update_interfaces_ip_address() {
 		log.Printf("%s :: Error updating interfaces ip_address: %v", "Interfaces ip_address", err)
 	}
 }
+
 func Update_interfaces_ip_address_by_switch_id(switch_id int64) {
 	// Establish the database connection.
 	db, err := DB_connect()
@@ -183,6 +184,34 @@ func Update_interfaces_ip_address_by_switch_id(switch_id int64) {
 	Execute_query(db, "UPDATE interfaces JOIN arp_table ON interfaces.mac_address = arp_table.mac_address SET interfaces.ip_address = arp_table.ip_address WHERE interfaces.switch_id = "+strconv.FormatInt(switch_id, 10)+" AND DATE(interfaces.created_at) = CURDATE()")
 	if err != nil {
 		log.Printf("%s :: Error updating interfaces ip_address: %v", "Interfaces ip_address", err)
+	}
+}
+
+func Update_interfaces_fqdn() {
+	// Establish the database connection.
+	db, err := DB_connect()
+	if err != nil {
+		log.Print(err)
+	}
+	defer db.Close()
+
+	Execute_query(db, "UPDATE interfaces JOIN fqdn_table ON interfaces.mac_address = fqdn_table.mac_address AND interfaces.ip_address = fqdn_table.ip_address SET interfaces.fqdn = fqdn_table.fqdn WHERE DATE(interfaces.created_at) = CURDATE()")
+	if err != nil {
+		log.Printf("%s :: Error updating interfaces fqdn: %v", "Interfaces fqdn", err)
+	}
+}
+
+func Update_interfaces_fqdn_by_switch_id(switch_id int64) {
+	// Establish the database connection.
+	db, err := DB_connect()
+	if err != nil {
+		log.Print(err)
+	}
+	defer db.Close()
+
+	Execute_query(db, "UPDATE interfaces JOIN fqdn_table ON interfaces.mac_address = fqdn_table.mac_address AND interfaces.ip_address = fqdn_table.ip_address SET interfaces.fqdn = fqdn_table.fqdn WHERE interfaces.switch_id = "+strconv.FormatInt(switch_id, 10)+" AND DATE(interfaces.created_at) = CURDATE()")
+	if err != nil {
+		log.Printf("%s :: Error updating interfaces fqdn: %v", "Interfaces fqdn", err)
 	}
 }
 
