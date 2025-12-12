@@ -26,11 +26,6 @@ func Update_interfaces() {
 	log.Println("Waiting 3 seconds before next Update...")
 	time.Sleep(3 * time.Second)
 
-	log.Printf("Updating interfaces ip_address")
-	Update_interfaces_ip_address()
-	log.Println("Waiting 3 seconds before next Update...")
-	time.Sleep(3 * time.Second)
-
 	log.Printf("Updating interfaces vlan_id")
 	Update_interfaces_vlan_id()
 	log.Println("Waiting 3 seconds before next Update...")
@@ -43,10 +38,6 @@ func Update_interfaces() {
 func Update_interfaces_by_switch_id(switch_id int64) {
 	log.Printf("Updating interfaces mac_address")
 	Update_interfaces_mac_address_by_switch_id(switch_id)
-	time.Sleep(1 * time.Second)
-
-	log.Printf("Updating interfaces ip_address")
-	Update_interfaces_ip_address_by_switch_id(switch_id)
 	time.Sleep(1 * time.Second)
 
 	log.Printf("Updating interfaces vlan_id")
